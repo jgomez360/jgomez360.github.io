@@ -1,485 +1,249 @@
 <!DOCTYPE html>
 <html>
   <head>
-	<title>Configurable</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="js/jquery.mobile-1.4.5.min.css">
-	<script src="js/jquery-1.11.3.min.js"></script>
-	<script src="js/jquery.mobile-1.4.5.min.js"></script>
+    <title>teatime</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.css" />
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.js"></script>
   </head>
   <body>
-	<!-- Main Page -->
-	<div data-role="page" id="main">
-	  <div data-role="header" class="jqm-header">
-		<h1>Select a workout</h1>
-			<a data-parm="1" href="#workout-detail" class="ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-right">Add</a>
-	  </div>
-	  
+    <div data-role="page" id="main" class="ui-page-theme-b">
+      <div class="ui-body ui-body-b">
+	<fieldset>
+          <button type="submit" data-theme="b" class="b-submit" style="border-color: #ff4500;">Save</button>
+        </fieldset>
+      </div>
+      <div data-role="content" class="ui-content">
+	<div id="conflist">
+        
+	</div>
+      </div>
+      <div class="ui-body ui-body-b">
+	<fieldset>
+          <button type="submit" data-theme="b" class="b-submit" style="border-color: #ff4500;">Save</button>
+        </fieldset>
+      </div>
+    </div>
 
-	  <div data-role="content">
-
-		
-		
-		<div class="ui-body ui-body-d ui-corner-all">
-			<div data-role="controlgroup" id="my-controlgroup"><!-- items will be injected here --></div>
-		</div>
-		
-		</div>
-	</div><!-- /page -->
-		
-	
-	<!-- Start of second page -->
-	<div data-role="page" id="add-workout">
-	
-		<div data-role="header">
-			<h1>Bar</h1>
-		</div><!-- /header -->
-
-		<div role="body" class="ui-content">
-			<p>I'm the second in the source order so I'm hidden when the page loads. I'm just shown if a link that references my id is being clicked.</p>
-			<p><a href="#main">Back to foo</a></p>
-		</div><!-- /content -->
-
-		<div data-role="footer">
-
-		</div><!-- /footer -->
-	</div><!-- /page -->
-
-		<!-- Start of third page -->
-	<div data-role="page" id="workout-detail">
-		<div data-role="header">
-			<h1 id="workout-title">Workout Title</h1>
-		</div><!-- /header -->
-		<div data-role="collapsibleset" data-content-theme="a" data-iconpos="right" id="exercises"></div>
-
-		<div class="ui-body ui-body-b">
-		  <fieldset class="ui-grid-a">
-			  <div class="ui-block-a"><button type="submit" data-theme="a" id="b-submit">Select Workout</button></div>
-<!--			  <div class="ui-block-b"><a href="#main"><button type="submit" data-theme="d" id="b-cancel">Cancel</button></a></div>	-->
-			  <div class="ui-block-b"><button type="submit" data-theme="d" id="b-cancel">Cancel</button></div>
-		  </fieldset>
-		</div>
-		
-		<textarea style="white-space: pre-wrap;" id="json"></textarea>
-		
-	</div><!-- /page -->
-	
-	<script>
-	
-	var data = { 
-	  "currentWorkoutId":0,
-	  "workouts":[
-	  {
-		"id":0,
-		"name":"Back & Biceps",
-		"exercises": [
-		{
-		  "id":1,
-		  "name":"Pull-Ups",
-		  "restTime":120,
-		  "reps": [ 10, 10, 10, 10 ],
-		  "loads": [ 30, 30, 30, 30 ]
-		},
-		{
-		  "id":2,
-		  "name":"Under Hand Bent Over Rows",
-		  "restTime":90,
-		  "reps": [ 12, 10, 8, 8 ],
-		  "loads": [ 20, 20, 20, 20 ]
-		},
-		{
-		  "id":3,
-		  "name":"Lawn Mowers",
-		  "restTime":90,
-		  "reps": [ 12, 12, 12, 12 ],
-		  "loads": [ 0, 0, 0, 0 ]
-		},
-		{
-		  "id":4,
-		  "name":"Back Extensions",
-		  "restTime":90,
-		  "reps": [ 12, 12, 12, 12 ],
-		  "loads": [ 0, 0, 0, 0 ]
-		},
-		{
-		  "id":5,
-		  "name":"Incline Bench Curls",
-		  "restTime":120,
-		  "reps": [ 12, 12, 12 ],
-		  "loads": [ 60, 60, 65 ]
-		},
-		{
-		  "id":6,
-		  "name":"Preacher Bench Curls",
-		  "restTime":90,
-		  "reps": [ 10, 10, 10 ],
-		  "loads": [ 0, 0, 0, 0 ]
-		},
-		{
-		  "id":7,
-		  "name":"Hammer Rope Curls",
-		  "restTime":90,
-		  "reps": [ 12, 12, 12 ],
-		  "loads": [ 0, 0, 0, 0 ]
-		}
-		]
-	  },
-	  {
-		"id":1,
-		"name":"Chest & Triceps",
-		"exercises": [
-		{
-		  "id":9,
-		  "name":"Bench Press",
-		  "restTime":120,
-		  "reps": [ 10, 8, 6, 4, 2, 2 ],
-		  "loads": [ 135, 165, 195, 205, 235, 260 ]
-		},
-		{
-		  "id":10,
-		  "name":"Incline Dumbbell Fly w/ Close Press",
-		  "restTime":90,
-		  "reps": [ 10, 10, 10, 10 ],
-		  "loads": [ 35, 35, 35, 35 ]
-		},
-		{
-		  "id":11,
-		  "name":"Single Arm Dumbbell Press",
-		  "restTime":90,
-		  "reps": [ 10, 10, 10, 10 ],
-		  "loads": [ 60, 60, 60, 60 ]
-		},
-		{
-		  "id":12,
-		  "name":"Giant Tricep Set",
-		  "restTime":90,
-		  "reps": [ 10, 10, 10, 10 ],
-		  "loads": [ 0, 0, 0, 0 ]
-		}
-		]
-	  },
-	  {
-		"id":2,
-		"name":"Legs, Shoulders & Abs",
-		"exercises": [
-		{
-		  "id":14,
-		  "name":"Squats",
-		  "restTime":90,
-		  "reps": [ 15, 12, 10, 8, 8 ],
-		  "loads": [ 0, 0, 0, 0, 0 ]
-		},
-		{
-		  "id":15,
-		  "name":"Romanian Deadlifts",
-		  "restTime":120,
-		  "reps": [ 12, 12, 12, 12, 12 ],
-		  "loads": [ 0, 0, 0, 0, 0 ]
-		},
-		{
-		  "id":16,
-		  "name":"Walking Lunges",
-		  "restTime":90,
-		  "reps": [ 12, 12, 12, 12 ],
-		  "loads": [ 0, 0, 0, 0 ]
-		},
-		{
-		  "id":17,
-		  "name":"Overhead Press",
-		  "restTime":90,
-		  "reps": [ 15, 12, 10, 8, 8 ],
-		  "loads": [ 0, 0, 0, 0, 0 ]
-		},
-		{
-		  "id":18,
-		  "name":"Side Lateral Raise",
-		  "restTime":90,
-		  "reps": [ 12, 12, 12, 12 ],
-		  "loads": [ 0, 0, 0, 0 ]
-		},
-		{
-		  "id":20,
-		  "name":"Standing Calf Raises",
-		  "restTime":90,
-		  "reps": [ 15, 15, 15, 15 ],
-		  "loads": [ 0, 0, 0, 0 ]
-		},
-		{
-		  "id":21,
-		  "name":"Hanging Leg Raise",
-		  "restTime":90,
-		  "reps": [ 20, 20, 20 ],
-		  "loads": [ 0, 0, 0, 0 ]
-		},
-		{
-		  "id":22,
-		  "name":"Cable Twists",
-		  "restTime":90,
-		  "reps": [ 15, 15, 15 ],
-		  "loads": [ 0, 0, 0, 0 ]
-		},
-		{
-		  "id":23,
-		  "name":"Ab Machine Crunch",
-		  "restTime":90,
-		  "reps": [ 10, 10, 10, 10 ],
-		  "loads": [ 0, 0, 0, 0 ]
-		}
-		]
-	  },
-	  ]
+    <script type="t/template" id="tpl">
+      <div class="ui-field-contain">
+      <fieldset data-role="controlgroup">
+	<div data-role="fieldcontain" class="ui-hide-label">
+          <label for="name{{=idx}}">Tea</label>
+          <input type="text" value="{{%name}}" id="name{{=idx}}"{{!name}} placeholder="Add new tea"{{/!name}}>
+          <label for="comment{{=idx}}">Comment</label>
+          <input type="text" value="{{%comment}}" id="comment{{=idx}}" placeholder="Description">
+	</div>
+	<div data-role="fieldcontain" class="ui-hide-label">
+        <label for="low{{=idx}}">Alerts</label>
+        <select id="low{{=idx}}">
+          <option value="1">&#188; minute</option>
+          <option value="2">&#189; minute</option>
+          <option value="3">&#190; minute</option>
+          <option value="4">1 minute</option>
+          <option value="5">1&#188; minutes</option>
+          <option value="6">1&#189; minutes</option>
+          <option value="7">1&#190; minutes</option>
+          <option value="8">2 minutes</option>
+          <option value="9">2&#188; minutes</option>
+          <option value="10">2&#189; minutes</option>
+          <option value="11">2&#190; minutes</option>
+          <option value="12">3 minutes</option>
+          <option value="13">3&#188; minutes</option>
+          <option value="14">3&#189; minutes</option>
+          <option value="15">3&#190; minutes</option>
+          <option value="16">4 minutes</option>
+          <option value="17">4&#188; minutes</option>
+          <option value="18">4&#189; minutes</option>
+          <option value="19">4&#190; minutes</option>
+          <option value="20">5 minutes</option>
+          <option value="21">5&#188; minutes</option>
+          <option value="22">5&#189; minutes</option>
+          <option value="23">5&#190; minutes</option>
+          <option value="24">6 minutes</option>
+          <option value="25">6&#188; minutes</option>
+          <option value="26">6&#189; minutes</option>
+          <option value="27">6&#190; minutes</option>
+          <option value="28">7 minutes</option>
+          <option value="29">7&#188; minutes</option>
+          <option value="30">7&#189; minutes</option>
+          <option value="31">7&#190; minutes</option>
+          <option value="32">8 minutes</option>
+          <option value="33">8&#188; minutes</option>
+          <option value="34">8&#189; minutes</option>
+          <option value="35">8&#190; minutes</option>
+          <option value="36">9 minutes</option>
+          <option value="37">9&#188; minutes</option>
+          <option value="38">9&#189; minutes</option>
+          <option value="39">9&#190; minutes</option>
+          <option value="40">10 minutes</option>
+        </select>
+        <select id="high{{=idx}}">
+          <option value="1">&#188; minute</option>
+          <option value="2">&#189; minute</option>
+          <option value="3">&#190; minute</option>
+          <option value="4">1 minute</option>
+          <option value="5">1&#188; minutes</option>
+          <option value="6">1&#189; minutes</option>
+          <option value="7">1&#190; minutes</option>
+          <option value="8">2 minutes</option>
+          <option value="9">2&#188; minutes</option>
+          <option value="10">2&#189; minutes</option>
+          <option value="11">2&#190; minutes</option>
+          <option value="12">3 minutes</option>
+          <option value="13">3&#188; minutes</option>
+          <option value="14">3&#189; minutes</option>
+          <option value="15">3&#190; minutes</option>
+          <option value="16">4 minutes</option>
+          <option value="17">4&#188; minutes</option>
+          <option value="18">4&#189; minutes</option>
+          <option value="19">4&#190; minutes</option>
+          <option value="20">5 minutes</option>
+          <option value="21">5&#188; minutes</option>
+          <option value="22">5&#189; minutes</option>
+          <option value="23">5&#190; minutes</option>
+          <option value="24">6 minutes</option>
+          <option value="25">6&#188; minutes</option>
+          <option value="26">6&#189; minutes</option>
+          <option value="27">6&#190; minutes</option>
+          <option value="28">7 minutes</option>
+          <option value="29">7&#188; minutes</option>
+          <option value="30">7&#189; minutes</option>
+          <option value="31">7&#190; minutes</option>
+          <option value="32">8 minutes</option>
+          <option value="33">8&#188; minutes</option>
+          <option value="34">8&#189; minutes</option>
+          <option value="35">8&#190; minutes</option>
+          <option value="36">9 minutes</option>
+          <option value="37">9&#188; minutes</option>
+          <option value="38">9&#189; minutes</option>
+          <option value="39">9&#190; minutes</option>
+          <option value="40">10 minutes</option>
+        </select>
+	</div>
+        <div data-role="fieldcontain">
+        <label for="enabled{{=idx}}">Enabled</label>
+        <input type="checkbox" data-role="flipswitch" data-on-text="Yes" data-off-text="No" id="enabled{{=idx}}" {{enabled}} checked{{/enabled}}>
+        </div>
+      </fieldset>
+      </div>
+    </script>
+    <script>
+(function() {
+	var blockregex = /\{\{(([@!]?)(.+?))\}\}(([\s\S]+?)(\{\{:\1\}\}([\s\S]+?))?)\{\{\/\1\}\}/g,
+		valregex = /\{\{([=%])(.+?)\}\}/g;
+	function t(template) {
+		this.t = template;
 	}
-		
-
-	$(document).on('pageinit', '#main', function() {
-
-		var action = function(e) {
-			data.currentWorkoutId = $(e.target).attr( "data-parm" );
-		};
-		
-		for (var i in data.workouts) {
-			var $el = $( "<a data-parm='" + data.workouts[i].id + "' href='#workout-detail' class='ui-btn ui-corner-all ui-icon-carat-r ui-btn-icon-right'>" + data.workouts[i].name + "</a>" ).bind( "click", action );
-			$( "#my-controlgroup" ).controlgroup( "container" ).append( $el );
-			$el.buttonMarkup();
-		}
-		
-		$( "#my-controlgroup" ).controlgroup( "refresh" );
-	});
-			
-	$(document).on('pagebeforeshow', '#workout-detail', function(){
-		// Get current workout
-		// Change to get workout by key
-		var w = data.workouts[data.currentWorkoutId];
-		
-		// Set workout name
-		var element = document.getElementById("workout-title").innerHTML = w.name;
-
-		var container = document.getElementById("exercises");
-		while (container.hasChildNodes()) {
-			container.removeChild(container.lastChild);
-		}
-		
-		var nav0 = document.createElement("div");
-			nav0.setAttribute('class', 'ui-grid-a');
-			
-		var renameWorkout = document.createElement("div");
-		renameWorkout.setAttribute('class', 'ui-block-a');
-		renameWorkout.setAttribute('id', data.currentWorkoutId);
-		//renameWorkout.setAttribute('onclick', 'renameWorkout(' + data.currentWorkoutId + ')');
-		renameWorkout.innerHTML = "<a href='#' class='ui-btn ui-corner-all ui-shadow'>Rename</a>";
-		nav0.appendChild(renameWorkout);
-		
-		var addExer = document.createElement("div");
-		addExer.setAttribute('class', 'ui-block-b');
-		addExer.setAttribute('id', data.currentWorkoutId);
-		//addExer.setAttribute('onclick', 'addExer(' + data.currentWorkoutId + ')');
-		addExer.innerHTML = "<a href='#' class='ui-btn ui-corner-all ui-shadow'>Add Exercise</a>";
-		nav0.appendChild(addExer);
-
-		container.appendChild(nav0);
-		
-				
-		for (i=0; i<w.exercises.length; i++){
-			var e = document.createElement("div");
-			e.setAttribute('class', 'exercise');
-			e.setAttribute('id', data.currentWorkoutId + 'eID' + i);
-			e.setAttribute('data-role', 'collapsible');
-			
-			var eName = document.createElement("h3");
-			eName.setAttribute('class', 'eName');
-			eName.setAttribute('id', data.currentWorkoutId + 'eName' + i);
-			eName.innerHTML = w.exercises[i].name;
-			e.appendChild(eName);
-			
-			var navbar = document.createElement("div");
-			navbar.setAttribute('data-role', 'navbar');
-			navbar.setAttribute("align", "center");
-			
-			var nav1 = document.createElement("div");
-			nav1.setAttribute('class', 'ui-grid-a');
-			
-			var renameExer = document.createElement("div");
-			renameExer.setAttribute('class', 'ui-block-a');
-			renameExer.setAttribute('id', data.currentWorkoutId + 'eRename' + i);
-			renameExer.setAttribute('onclick', 'renameExer(' + data.currentWorkoutId + ',' + i + ')');
-			renameExer.innerHTML = "<a href='#' class='ui-btn ui-corner-all ui-shadow'>Rename</a>";
-			nav1.appendChild(renameExer);
-			
-			var removeExer = document.createElement("div");
-			removeExer.setAttribute('class', 'ui-block-b');
-			removeExer.setAttribute('id', data.currentWorkoutId + 'eRemove' + i);
-			removeExer.setAttribute('onclick', 'removeExer(' + data.currentWorkoutId + ',' + i + ')');
-			removeExer.innerHTML = "<a href='#' class='ui-btn ui-corner-all ui-shadow'>Remove</a>";
-			nav1.appendChild(removeExer);
-
-			navbar.appendChild(nav1);
-			
-			var nav2 = document.createElement("div");
-			nav2.setAttribute('class', 'ui-grid-a');
-			
-			var addSet = document.createElement("div");
-			addSet.setAttribute('class', 'ui-block-a');
-			addSet.setAttribute('onclick', 'addSet(' + data.currentWorkoutId + ',' + i + ')');
-			addSet.innerHTML = "<a href='#' class='ui-btn ui-corner-all ui-shadow'>Add Set</a>";
-			nav2.appendChild(addSet);
-			
-			var removeSet = document.createElement("div");
-			removeSet.setAttribute('class', 'ui-block-b');
-			removeSet.setAttribute('onclick', 'removeSet(' + data.currentWorkoutId + ',' + i + ')');
-			removeSet.innerHTML = "<a href='#' class='ui-btn ui-corner-all ui-shadow'>Remove Set</a>";
-			nav2.appendChild(removeSet);
-			
-			navbar.appendChild(nav2);
-			
-
-			
-			e.appendChild(navbar);
-			
-			var eStats = document.createElement("div");
-			eStats.setAttribute('class', 'eStats');
-			eStats.setAttribute('id', data.currentWorkoutId + 'eStats' + i);
-						
-			
-			
-			var restTime = document.createElement("div");
-			restTime.setAttribute('class', 'ui-field-contain');
-			restTime.setAttribute("align", "center");
-			restTime.innerHTML = "Rest Time: <input id='restTime' class='restTime' type='tel' maxlength='3' size='3' value='" + w.exercises[i].restTime + "'> seconds";
-			eStats.appendChild(restTime);
-			
-			for (j=0; j<w.exercises[i].reps.length; j++){
-				var set = document.createElement("div");
-				
-				set.innerHTML += "Set " + (parseInt(j)+1) + " - ";
-				set.innerHTML += "Reps:<input id='r" + j + "' class='rep' type='tel' maxlength='2' size='2' value='" + w.exercises[i].reps[j] + "'> ";
-				set.innerHTML += "Load:<input id='l" + j + "' class='load' type='tel' maxlength='3' size='3' value='" + w.exercises[i].loads[j] + "'>";
-		
-				eStats.appendChild(set);			
+	function scrub(val) {
+		return new Option(val).innerHTML.replace(/"/g,"&quot;");
+	}
+	function get_value(vars, key) {
+		var parts = key.split('.');
+		while (parts.length) {
+			if (!(parts[0] in vars)) {
+				return false;
 			}
-			
-			e.appendChild(eStats);
-
-			//document.getElementById("json").innerHTML += e.innerHTML + " ";
-			
-			container.appendChild(e);
-			
-			$('div[data-role=collapsible]').collapsible();
+			vars = vars[parts.shift()];
 		}
-	});
-	 
-	function addSet(wID, eID) {
-		var eStatsID = wID + "eStats" + eID;
-		var eStats = document.getElementById(eStatsID);
-		
-//		document.getElementById("json").innerHTML += document.getElementById(eStatsID).getElementsByTagName("div").length + " df";
-		
-		var setCount = document.getElementById(eStatsID).getElementsByTagName("div").length;
-	
-		var set = document.createElement("div");
-		
-		//set.innerHTML = "<a href='#' class='ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline'>Delete Rep</a>"
-		set.innerHTML += "Set " + setCount + " - ";
-		set.innerHTML += "Reps:<input id='r" + setCount + "' class='rep' type='tel' maxlength='2' size='2' value='0'> ";
-		set.innerHTML += "Load:<input id='l" + setCount + "' class='load' type='tel' maxlength='3' size='3' value='0'>";
-
-		eStats.appendChild(set);
+		return vars;
 	}
-
-	function removeSet(wID, eID) {
-		var eStatsID = wID + "eStats" + eID;
-		var eStats = document.getElementById(eStatsID);
-		
-		if (eStats.childNodes.length > 2) {
-			eStats.removeChild(eStats.lastChild);
-		}
+	function render(fragment, vars) {
+		return fragment
+			.replace(blockregex, function(_, __, meta, key, inner, if_true, has_else, if_false) {
+				var val = get_value(vars,key), temp = "", i;
+				if (!val) {
+					// handle if not
+					if (meta == '!') {
+						return render(inner, vars);
+					}
+					// check for else
+					if (has_else) {
+						return render(if_false, vars);
+					}
+					return "";
+				}
+				// regular if
+				if (!meta) {
+					return render(if_true, vars);
+				}
+				// process array/obj iteration
+				if (meta == '@') {
+					// store any previous vars
+					// reuse existing vars
+					_ = vars._key;
+					__ = vars._val;
+					for (i in val) {
+						if (val.hasOwnProperty(i)) {
+							vars._key = i;
+							vars._val = val[i];
+							temp += render(inner, vars);
+						}
+					}
+					vars._key = _;
+					vars._val = __;
+					return temp;
+				}
+			})
+			.replace(valregex, function(_, meta, key) {
+				var val = get_value(vars,key);
+				if (val || val === 0) {
+					return meta == '%' ? scrub(val) : val;
+				}
+				return "";
+			});
 	}
-
-	function renameExer(wID, eID) {
-		
-		var wName = prompt("Enter new exercise name", "");
-		
-		if (wName != null) {
-			var eNameID = wID + "eName" + eID;
-		//	alert(document.getElementById(eNameID).getElementsByTagName("a")[0].innerHTML);
-			
-			var eName = document.getElementById(eNameID).getElementsByTagName("a")[0].innerHTML = wName;
-		
-		
-			$('div[data-role=collapsible]').collapsible();
-		}
-	}
-	
-	function removeExer(wID, eID) {
-		
-		var eNameID = wID + "eID" + eID;
-//		alert(document.getElementById(eNameID).innerHTML);
-		
-		var eID = document.getElementById(eNameID);
-		eID.parentNode.removeChild(eID);
-		
-	}
-	
-	function saveOptions() {
-		// Build workout array
-		var result = { "id":0,
-			"name":"tempt name",
-			"exercises": []
-		}
-		
-		result.name = document.getElementById("workout-title").innerText;
-		var exercises = document.getElementsByClassName("exercise");
-					
-		for (i=0; i<exercises.length; i++){
-			var eStats = exercises[i].getElementsByClassName("eStats");
-
-			result.exercises.push({	id : i, name : exercises[i].getElementsByClassName("eName")[0].innerText.slice(0,exercises[i].getElementsByClassName("eName")[0].innerText.indexOf(" click to")), restTime : parseInt(eStats[0].getElementsByClassName("restTime")[0].value), reps : [], loads : []});
-			
-			for (j=0; j<eStats[0].getElementsByClassName("rep").length; j++){
-				result.exercises[i].reps[j] = parseInt(eStats[0].getElementsByClassName("rep")[j].value);
-				result.exercises[i].loads[j] = parseInt(eStats[0].getElementsByClassName("load")[j].value);
-						
-			}
-		}
-		
-		return result;
-	}
-
-	$().ready(function() {
-		$("#b-cancel").click(function() {
-			console.log("Cancel");
-			//saveOptions();
-			//document.location = "pebblejs://close";
-							
-			//document.getElementById("json").innerHTML = JSON.stringify(data.workouts[data.currentWorkoutId]);
-			//document.getElementById("json").innerHTML = JSON.stringify(saveOptions());
-			
-			document.location = "#main";
-		});
-
-		$("#b-submit").click(function() {
-			console.log("Submit");
-
-			var location = "pebblejs://close#" + encodeURIComponent(JSON.stringify(saveOptions()));
-			console.log("Warping to: " + location);
-			console.log(location);
-			document.location = location;
-		});
-
-	  });
-	  
-	function getObjects(obj, key, val) {
-		var objects = [];
-		for (var i in obj) {
-			if (!obj.hasOwnProperty(i)) continue;
-			if (typeof obj[i] == 'object') {
-				objects = objects.concat(getObjects(obj[i], key, val));
-			} else if (i == key && obj[key] == val) {
-				objects.push(obj);
-			}
-		}
-		return objects;
-	}
-	</script>
+	t.prototype.render = function (vars) {
+		return render(this.t, vars);
+	};
+	window.t = t;
+})();
+    </script>
+    <script>
+      $().ready(function() {
+      var hash = window.location.hash;
+      var conf = JSON.parse(decodeURIComponent(hash.substr(1)));
+      var tpl = new t(document.getElementById('tpl').innerHTML);
+      for(var i=0; i<conf.length; i++) {
+        $('#conflist').append(tpl.render({
+          enabled: conf[i][0],
+          name: conf[i][1],
+          comment: conf[i][2],
+          idx: i
+        }));
+        var id = '#low' + i;
+        $('#low' + i).val(conf[i][3]);
+        $('#high' + i).val(conf[i][4]);
+      }
+      $('#conflist').append(tpl.render({
+        enabled: true,
+        name: '',
+        comment: '',
+        idx: conf.length
+      }));
+$('#conflist').enhanceWithin();
+        $(".b-submit").click(function() {
+          var conf = [];
+          var i=0;
+          while($('#name'+i).length) {
+            var name = $('#name'+i).val();
+            if(name.length) {
+              conf.push([
+                $('#enabled'+i).is(':checked'),
+                name,
+                $('#comment'+i).val(),
+                +$('#low'+i).val(),
+                +$('#high'+i).val()
+              ]);
+            }
+            i++;
+          }
+          var location = "pebblejs://close#" + encodeURIComponent(JSON.stringify(conf));
+          document.location = location;
+        });
+      });
+    </script>
   </body>
 </html>
