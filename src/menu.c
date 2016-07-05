@@ -21,8 +21,6 @@ char fos1[100] = {'\0'};
 char wKeyList1[100] = {'\0'};
 char workoutNames[20][TITLE_SIZE];
 
-char *strtok2(char *s, const char *delim);
-
 static Window *window;
 
 // This is a menu layer
@@ -76,7 +74,7 @@ static void menu_select_callback(MenuLayer *menu_layer, MenuIndex *cell_index, v
 
 	strncpy(fos1, wKeyList1, 100);
 
-	//APP_LOG(APP_LOG_LEVEL_DEBUG, "wKeyList: %s", fos1);
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "wKeyList: %s", fos1);
 
 	int i = 0;
 	char *result;
@@ -85,12 +83,12 @@ static void menu_select_callback(MenuLayer *menu_layer, MenuIndex *cell_index, v
 		while ((result != NULL) && (i != cell_index->row)) {
 			result = strtok(NULL,","); 
 			i += 1;
-			//APP_LOG(APP_LOG_LEVEL_DEBUG, "Menu Result: %s", result);
+			APP_LOG(APP_LOG_LEVEL_DEBUG, "Menu Result: %s", result);
 		} 
 	
 		if (result != NULL) {
 			show_workout_layout(atoi(result));
-			//	workout_show(atoi(result));
+				//window_load();
 			//free(result);
 		}
 	}
@@ -135,6 +133,10 @@ void menu_init(void) {
 		.unload = window_unload,
   });
 	
+	#ifdef PBL_SDK_3
+		static StatusBarLayer *s_status_bar;
+	#endif
+		
 	// Now we prepare to initialize the menu layer
   // We need the bounds to specify the menu layer's viewport size
   // In this case, it'll be the same as the window's
@@ -158,6 +160,12 @@ void menu_init(void) {
 	  .select_long_click =  menu_select_long_click_callback,
 	});
 
+	#ifdef PBL_SDK_3
+  	// Set up the status bar last to ensure it is on top of other Layers
+  	s_status_bar = status_bar_layer_create();
+  	layer_add_child(window_layer, status_bar_layer_get_layer(s_status_bar));
+	#endif
+	
 	// Bind the menu layer's click config provider to the window for interactivity
 	menu_layer_set_click_config_onto_window(menu_layer, window);
 
@@ -174,55 +182,4 @@ void menu_show(int numWorkouts, char* workoutKeyList) {
 
 void menu_deinit(void) {
 	window_destroy(window);
-}
-
-char *
-strtok2(s, delim)
-	register char *s;
-	register const char *delim;
-{
-	register char *spanp;
-	register int c, sc;
-	char *tok;
-	static char *last;
-
-
-	if (s == NULL && (s = last) == NULL)
-		return (NULL);
-
-	/*
-	 * Skip (span) leading delimiters (s += strspn(s, delim), sort of).
-	 */
-cont:
-	c = *s++;
-	for (spanp = (char *)delim; (sc = *spanp++) != 0;) {
-		if (c == sc)
-			goto cont;
-	}
-
-	if (c == 0) {		/* no non-delimiter characters */
-		last = NULL;
-		return (NULL);
-	}
-	tok = s - 1;
-
-	/*
-	 * Scan token (scan for delimiters: s += strcspn(s, delim), sort of).
-	 * Note that delim must have one NUL; we stop if we see that, too.
-	 */
-	for (;;) {
-		c = *s++;
-		spanp = (char *)delim;
-		do {
-			if ((sc = *spanp++) == c) {
-				if (c == 0)
-					s = NULL;
-				else
-					s[-1] = 0;
-				last = s;
-				return (tok);
-			}
-		} while (sc != 0);
-	}
-	/* NOTREACHED */
 }

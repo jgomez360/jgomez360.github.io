@@ -7,7 +7,7 @@ Pebble.addEventListener("ready", function() {
 
 Pebble.addEventListener("showConfiguration", function() {
 	console.log("showing configuration");
-	Pebble.openURL('https://dl.dropboxusercontent.com/u/12309605/js-configure-demo-master/configurable1_test.html');
+	Pebble.openURL('https://dl.dropboxusercontent.com/u/12309605/js-configure-demo-master/configurable1.html');
 //	Pebble.openURL('https://drive.google.com/open?id=0By6_iohjaHzLRmhpV01YdlNpVXM');
 });
 

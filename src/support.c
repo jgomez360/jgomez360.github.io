@@ -1,6 +1,5 @@
 #include "pebble.h"
 
-	
 // Counts how many characters are in the number
 int int_length(int num)
 {

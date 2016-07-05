@@ -1,2 +1,4 @@
-void show_exercise_edit_layout(void);
-void hide_exercise_edit_layout(void);
+#pragma once
+
+void exercise_edit_initialise_ui(int wKey, int eKey, int setNum);
+void exercise_edit_destroy_ui(void) ;
